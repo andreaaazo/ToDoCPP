@@ -26,7 +26,7 @@ Requires a **C++17** (or higher) compiler.
 
 1. **Clone** this repository:
    ```bash
-   git clone https://github.com/andreaaazo/ToDoC++.git
+   git clone https://github.com/andreaaazo/ToDoCPP.git
    cd ToDoC++
    ```
 2. **Compile** and **run** (example using g++ on Linux/macOS):
@@ -124,7 +124,7 @@ We welcome PRs, issues, or daydreams about adding a cutting-edge artificial inte
 
 ## 📄 License
 
-This project is distributed under the [MIT License](LICENSE).  
+This project is distributed under the [MIT License]("https://github.com/andreaaazo/ToDoCPP/blob/master/LICENSE.txt").  
 You’re free to use, modify, and distribute this code—just like free samples at the grocery store. But please, don’t hog it all for yourself.
 
 ---
