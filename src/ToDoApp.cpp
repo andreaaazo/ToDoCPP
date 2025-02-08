@@ -1,11 +1,18 @@
 #include "ToDoApp.h"
 
 #include <iostream>
-using namespace std;
 
-ToDoApp::ToDoApp(ConsoleUI &ui, TaskManager &task_manager)
+/**
+ * @brief Constructs [ToDoApp] with references to [ConsoleUI] and [TaskManager].
+ * @param ui Reference to [ConsoleUI]
+ * @param task_manager Reference to [TaskManager]
+ */
+ToDoApp::ToDoApp(ConsoleUI& ui, TaskManager& task_manager)
     : ui(ui), task_manager(task_manager) {}
 
+/**
+ * @brief Runs [ToDoApp] main loop until user chooses to exit.
+ */
 void ToDoApp::run() {
     int choice;
 
@@ -16,9 +23,8 @@ void ToDoApp::run() {
 
         switch (choice) {
             case 1: {
-                const string name = ui.getTaskName();
-                const string description = ui.getTaskDescription();
-
+                std::string name = ui.getTaskName();
+                std::string description = ui.getTaskDescription();
                 if (task_manager.addTask(name, description)) {
                     ui.displayMessage("-----------------------------");
                     ui.displayMessage("Task added successfully.");
@@ -32,11 +38,10 @@ void ToDoApp::run() {
                 ui.displayTasks(task_manager.getTasks());
                 break;
             }
-
             case 3: {
-                const size_t index =
+                size_t index =
                     ui.getTaskIndex(task_manager.getTasks(), "complete");
-
+                // Index in code is 1-based; manager expects 0-based
                 if (task_manager.completeTask(index - 1)) {
                     ui.displayMessage("-----------------------------");
                     ui.displayMessage("Task completed successfully.");
@@ -47,8 +52,9 @@ void ToDoApp::run() {
                 break;
             }
             case 4: {
-                const vector<Task> tasks = task_manager.getTasks();
-                const size_t index = ui.getTaskIndex(tasks, "delete");
+                const std::vector<Task> tasks = task_manager.getTasks();
+                size_t index = ui.getTaskIndex(tasks, "delete");
+                // Index in code is 1-based; manager expects 0-based
                 if (task_manager.removeTask(index - 1)) {
                     ui.displayMessage("-----------------------------");
                     ui.displayMessage("Task deleted successfully.");
@@ -66,7 +72,7 @@ void ToDoApp::run() {
                 ui.displayMessage("Invalid choice! Please try again.");
                 break;
             }
-        };
+        }
 
         ui.displayMessage(
             "-----------------------------\n-----------------------------");

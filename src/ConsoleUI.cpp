@@ -1,111 +1,135 @@
 #include "ConsoleUI.h"
 
 #include <iostream>
-#include <limits>
 
-using namespace std;
-
-const void ConsoleUI::showMenu() {
-    cout << "------ To-Do List Menu ------" << endl;
-    cout << "1. Add task" << endl;
-    cout << "2. View task" << endl;
-    cout << "3. Complete task" << endl;
-    cout << "4. Delete task" << endl;
-    cout << "5. Exit" << endl;
+/**
+ * @brief Displays [menu] to the console.
+ */
+void ConsoleUI::showMenu() {
+    std::cout << "------ To-Do List Menu ------" << std::endl;
+    std::cout << "1. Add task" << std::endl;
+    std::cout << "2. View tasks" << std::endl;
+    std::cout << "3. Complete task" << std::endl;
+    std::cout << "4. Delete task" << std::endl;
+    std::cout << "5. Exit" << std::endl;
 }
 
-const int ConsoleUI::getUserChoice() {
-    string input;
-    int choice;
-    cout << "Enter your choice: ";
-    getline(cin, input);
+/**
+ * @brief Returns user choice as an integer.
+ * @return User's choice if valid, otherwise -1
+ */
+int ConsoleUI::getUserChoice() {
+    std::string input;
+    std::cout << "Enter your choice: ";
+    std::getline(std::cin, input);
 
     if (input.empty()) {
         return -1;
     }
 
     try {
-        int choice = stoi(input);
+        int choice = std::stoi(input);
         return choice;
     } catch (...) {
         return -1;
     }
 }
 
-const string ConsoleUI::getTaskName() {
-    string name;
-
-    cout << "Enter task name: ";
-    getline(cin, name);
-
-    if (name.empty()) {
-        getTaskName();
-    }
-
-    return name;
+/**
+ * @brief Returns [task name] from user input.
+ * @return Non-empty [task name]
+ */
+std::string ConsoleUI::getTaskName() {
+    return getInputWithPrompt("Enter task name: ");
 }
 
-const string ConsoleUI::getTaskDescription() {
-    string description;
-
-    cout << "Enter task description: ";
-    getline(cin, description);
-
-    if (description.empty()) {
-        getTaskDescription();
-    }
-
-    return description;
+/**
+ * @brief Returns [task description] from user input.
+ * @return Non-empty [task description]
+ */
+std::string ConsoleUI::getTaskDescription() {
+    return getInputWithPrompt("Enter task description: ");
 }
 
-const size_t ConsoleUI::getTaskIndex(const vector<Task> &tasks,
-                                     const string &action) {
+/**
+ * @brief Returns [task index] chosen by the user for [action].
+ * @param tasks Reference to list of [tasks]
+ * @param action Action to perform (e.g., "delete" or "complete")
+ * @return Index in [tasks] if valid, otherwise -1
+ */
+size_t ConsoleUI::getTaskIndex(const std::vector<Task>& tasks,
+                               const std::string& action) {
     if (tasks.empty()) {
-        cout << "No tasks available." << endl;
-        return -1;  // oppure qualche altro valore di errore
+        std::cout << "No tasks available." << std::endl;
+        return static_cast<size_t>(-1);
     }
 
     displayTasks(tasks);
     displayMessage("-----------------------------");
-    cout << "Enter task number to " << action << ": ";
+    std::cout << "Enter task number to " << action << ": ";
 
-    string input;
-    getline(cin, input);
+    std::string input;
+    std::getline(std::cin, input);
 
     if (input.empty()) {
-        return -1;  // nessun input, errore
+        return static_cast<size_t>(-1);
     }
 
     try {
-        size_t index = static_cast<size_t>(stoi(input));
-
-        // Controllo che l'indice sia nelle dimensioni accettabili
+        size_t index = static_cast<size_t>(std::stoi(input));
         if (index < 1 || index > tasks.size()) {
-            return -1;
+            return static_cast<size_t>(-1);
         }
         return index;
     } catch (...) {
-        return -1;
+        return static_cast<size_t>(-1);
     }
 }
 
-const void ConsoleUI::displayMessage(const string &message) {
-    cout << message << endl;
+/**
+ * @brief Displays [message] to the console.
+ * @param message Text to display
+ */
+void ConsoleUI::displayMessage(const std::string& message) {
+    std::cout << message << std::endl;
 }
 
-const void ConsoleUI::displayTasks(const vector<Task> &tasks) {
+/**
+ * @brief Displays [tasks] to the console with details.
+ * @param tasks Reference to list of [tasks]
+ */
+void ConsoleUI::displayTasks(const std::vector<Task>& tasks) {
     if (tasks.empty()) {
-        cout << "No tasks available." << endl;
+        std::cout << "No tasks available." << std::endl;
         return;
     }
 
-    for (int i = 0; i < tasks.size(); i++) {
-        cout << "#" << i + 1 << " - " << tasks[i].getName() << endl;
-        cout << "Description: " << tasks[i].getDescription() << endl;
-        cout << "Status: " << (tasks[i].isCompleted() ? "Completed" : "Pending")
-             << endl;
+    for (size_t i = 0; i < tasks.size(); ++i) {
+        std::cout << "#" << i + 1 << " - " << tasks[i].getName() << std::endl;
+        std::cout << "Description: " << tasks[i].getDescription() << std::endl;
+        std::cout << "Status: "
+                  << (tasks[i].isCompleted() ? "Completed" : "Pending")
+                  << std::endl;
         if (i + 1 != tasks.size()) {
             displayMessage("-----------------------------");
         }
+    }
+}
+
+/**
+ * @brief Returns non-empty [input] after prompting [promptMsg].
+ * @param promptMsg Prompt message for user
+ * @return Non-empty user input
+ */
+std::string ConsoleUI::getInputWithPrompt(const std::string& promptMsg) {
+    while (true) {
+        std::cout << promptMsg;
+        std::string userInput;
+        std::getline(std::cin, userInput);
+
+        if (!userInput.empty()) {
+            return userInput;
+        }
+        std::cout << "Input cannot be empty. Please try again.\n";
     }
 }

@@ -2,20 +2,47 @@
 #define TASK_H
 
 #include <string>
-using namespace std;
 
+/**
+ * @class Task
+ * @brief Represents an individual task with a name, description, and completion
+ * status.
+ */
 class Task {
    public:
-    Task(const string& name, const string& description);
+    /**
+     * @brief Constructs [Task] with a [name] and a [description].
+     * @param name Name of the task
+     * @param description Description of the task
+     */
+    Task(const std::string& name, const std::string& description);
 
-    const string& getName() const;
-    const string& getDescription() const;
-    const bool isCompleted() const;
+    /**
+     * @brief Returns [name] of the task.
+     * @return Reference to task [name]
+     */
+    const std::string& getName() const;
 
+    /**
+     * @brief Returns [description] of the task.
+     * @return Reference to task [description]
+     */
+    const std::string& getDescription() const;
+
+    /**
+     * @brief Returns completion status of the task.
+     * @return True if completed, otherwise false
+     */
+    bool isCompleted() const;
+
+    /**
+     * @brief Marks the task as completed.
+     */
     void markAsCompleted();
 
    private:
-    string name, description;
+    std::string name;
+    std::string description;
     bool is_completed;
 };
 
