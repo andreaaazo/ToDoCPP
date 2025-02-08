@@ -27,7 +27,7 @@ Requires a **C++17** (or higher) compiler.
 1. **Clone** this repository:
    ```bash
    git clone https://github.com/andreaaazo/ToDoCPP.git
-   cd ToDoC++
+   cd ToDoCPP
    ```
 2. **Compile** and **run** (example using g++ on Linux/macOS):
    ```bash
